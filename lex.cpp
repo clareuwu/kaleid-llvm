@@ -77,6 +77,7 @@ static int gettok() {
 /// AST
 /// ---------------------------------------------------------------------
 // ExprAST - Base class for all expression nodes
+// maybe this could have a type field? virtual method for pprinting
 class ExprAST {
 public:
   virtual ~ExprAST() {}
@@ -90,6 +91,7 @@ public:
   NumberExprtAST(double Val) : Val(Val) {}
 };
 
+// VariableExprtAST - Expression class for referencing a variable like "foo"
 class VariableExprtAST : public ExprAST {
   std::string Name;
 
@@ -120,6 +122,7 @@ public:
 
 /// PrototypeAST - Represents the prototype for a function,
 /// which captures its name, its argument names (+ implicitly, number of arguments)
+// doesnt have type field, all arguments are doubles
 class PrototypeAST {
   std::string Name;
   std::vector<std::string> Args;
@@ -132,6 +135,7 @@ public:
 };
 
 // FunctionAST - Represents a function definition itself
+// not sure if arg types would be here or in PrototypeAST?
 class FunctionAST {
   std::unique_ptr<PrototypeAST> Proto;
   std::unique_ptr<ExprAST> Body;
@@ -141,5 +145,9 @@ public:
       std::unique_ptr<ExprAST> Body)
     : Proto(std::move(Proto)), Body(std::move(Body)) {}
 };
+
+/// ---------------------------------------------------------------------
+/// Parser
+/// ---------------------------------------------------------------------
 
 
